@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+  <h1>Actors:</h1>
+  <ul>
+    {% for actor in actor_list %}
+      <li><a href="#">{{ actor }}</a></li>
+    {% endfor %}
+  </ul>
+{% endblock %}
