@@ -5,7 +5,9 @@
   <h1>Actors:</h1>
   <ul>
     {% for actor in actor_list %}
-      <li><a href="#">{{ actor }}</a></li>
+      <li><a href="{% url 'catalog:actor-detail' pk=actor.id %}">{{ actor }}</a>
+        {{ actor.movies.count }}
+      </li>
     {% endfor %}
   </ul>
 {% endblock %}

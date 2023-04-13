@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+  <h1>Genre: {{ genre.name }}</h1>
+
+  <h3>Movies:</h3>
+  <ul>
+    {% for movie in genre.movies.all %}
+    <li>{{ movie.title }}</li>
+    {% endfor %}
+
+
+  </ul>
+{% endblock %}

@@ -24,12 +24,20 @@ class GenreListView(generic.ListView):
     queryset = Genre.objects.all().order_by("name")
 
 
+class GenreDetailView(generic.DetailView):
+    model = Genre
+
+
 class ActorListView(generic.ListView):
     model = Actor
     template_name = "catalog/actor_list.html"
     context_object_name = "actor_list"
     queryset = Actor.objects.all().order_by("last_name")
     paginate_by = 10
+
+
+class ActorDetailView(generic.DetailView):
+    model = Actor
 
 
 class MovieListView(generic.ListView):

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+  <h1>Actor: {{ actor.first_name }} {{ actor.last_name }}</h1>
+
+  <h3>Movies:</h3>
+  <ul>
+    {% for movie in actor.movies.all %}
+    <li>{{ movie.title }}</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

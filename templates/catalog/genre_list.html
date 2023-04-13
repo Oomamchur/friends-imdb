@@ -5,7 +5,9 @@
   <h1>Genres:</h1>
   <ul>
     {% for genre in genre_list %}
-      <li><a href="#">{{ genre.name }}</a></li>
+      <li><a href="{% url 'catalog:genre-detail' pk=genre.id %}">{{ genre.name }}</a>
+        {{ genre.movies.count }}
+      </li>
     {% endfor %}
   </ul>
 {% endblock %}
