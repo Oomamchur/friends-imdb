@@ -22,6 +22,7 @@ class GenreListView(generic.ListView):
     template_name = "catalog/genre_list.html"
     context_object_name = "genre_list"
     queryset = Genre.objects.all().order_by("name")
+    paginate_by = 5
 
 
 class GenreDetailView(generic.DetailView):

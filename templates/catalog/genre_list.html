@@ -6,7 +6,7 @@
   <ul>
     {% for genre in genre_list %}
       <li><a href="{% url 'catalog:genre-detail' pk=genre.id %}">{{ genre.name }}</a>
-        {{ genre.movies.count }}
+        ({{ genre.movies.count }} movies)
       </li>
     {% endfor %}
   </ul>
