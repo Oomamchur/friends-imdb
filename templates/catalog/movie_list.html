@@ -5,7 +5,11 @@
   <h1>Movies:</h1>
   <ul>
     {% for movie in movie_list %}
-      <li><a href="#">{{ movie }}</a></li>
+      <li><a href="#">{{ movie }}</a>
+        {% for genre in movie.genres.all %}
+          {{  genre.name  }}
+        {% endfor %}
+      </li>
     {% endfor %}
   </ul>
 {% endblock %}
