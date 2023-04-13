@@ -23,7 +23,3 @@ class MovieAdmin(admin.ModelAdmin):
 @admin.register(User)
 class UserAdmin(UserAdmin):
     search_fields = ["username"]
-
-
-
-
