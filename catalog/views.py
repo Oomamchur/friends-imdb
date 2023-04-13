@@ -1,5 +1,6 @@
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
+from django.views import generic
 
 from catalog.models import Movie, Actor, Genre
 
@@ -14,4 +15,12 @@ def index(request: HttpRequest) -> HttpResponse:
         "num_genres": num_genres
     }
     return render(request, "catalog/index.html", context=context)
+
+
+class GenreListView(generic.ListView):
+    model = Genre
+    template_name = "catalog/genre_list.html"
+    context_object_name = "genre_list"
+    queryset = Genre.objects.all().order_by("name")
+
 
