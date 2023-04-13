@@ -7,7 +7,9 @@
   <h3>Movies:</h3>
   <ul>
     {% for movie in genre.movies.all %}
-    <li>{{ movie.title }}</li>
+    <li>
+      <a href="{% url 'catalog:movie-detail' pk=movie.id %}">{{ movie }}</a>
+    </li>
     {% endfor %}
 
 

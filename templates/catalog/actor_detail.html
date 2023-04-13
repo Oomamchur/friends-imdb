@@ -4,10 +4,12 @@
 {% block content %}
   <h1>Actor: {{ actor.first_name }} {{ actor.last_name }}</h1>
 
-  <h3>Movies:</h3>
+  <h3>Filmography:</h3>
   <ul>
     {% for movie in actor.movies.all %}
-    <li>{{ movie.title }}</li>
+    <li>
+      <a href="{% url 'catalog:movie-detail' pk=movie.id %}">{{ movie }}</a>
+    </li>
     {% endfor %}
   </ul>
 {% endblock %}
