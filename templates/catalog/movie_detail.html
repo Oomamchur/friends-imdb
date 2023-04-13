@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+  <h1>Movie: {{ movie.title }}</h1>
+  <h5>Release year: {{ movie.year }}</h5>
+  <br>
+  <h5>Genres:
+  {% for genre in movie.genres.all %}
+    <a href="{% url 'catalog:genre-detail' pk=genre.id %}">{{ genre.name }}</a>
+  {% endfor %}
+  </h5>
+  <br>
+  <h6>Cast:</h6>
+  <ul>
+    {% for actor in movie.actors.all %}
+      <li>
+        <a href="{% url 'catalog:actor-detail' pk=actor.id %}">{{ actor.first_name }} {{ actor.last_name }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

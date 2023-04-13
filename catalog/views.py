@@ -46,3 +46,7 @@ class MovieListView(generic.ListView):
     context_object_name = "movie_list"
     queryset = Movie.objects.all().prefetch_related("genres")
     paginate_by = 10
+
+
+class MovieDetailView(generic.DetailView):
+    model = Movie
