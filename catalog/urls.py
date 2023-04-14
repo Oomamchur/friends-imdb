@@ -8,6 +8,7 @@ from catalog.views import (
     ActorDetailView,
     ActorCreateView,
     ActorUpdateView,
+    ActorDeleteView,
     MovieListView,
     MovieDetailView,
     MovieCreateView,
@@ -30,6 +31,11 @@ urlpatterns = [
         "actors/<int:pk>/update",
         ActorUpdateView.as_view(),
         name="actor-update"
+    ),
+    path(
+        "actors/<int:pk>/delete",
+        ActorDeleteView.as_view(),
+        name="actor-delete"
     ),
     path("movies/", MovieListView.as_view(), name="movie-list"),
     path("movies/<int:pk>/", MovieDetailView.as_view(), name="movie-detail"),

@@ -66,6 +66,13 @@ class ActorUpdateView(LoginRequiredMixin, generic.UpdateView):
     success_url = reverse_lazy("catalog:actor-list")
 
 
+class ActorDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Actor
+    fields = "__all__"
+    template_name = "catalog/actor_confirm_delete.html"
+    success_url = reverse_lazy("catalog:actor-list")
+
+
 class MovieListView(generic.ListView):
     model = Movie
     template_name = "catalog/movie_list.html"
