@@ -3,6 +3,11 @@
 
 {% block content %}
   <h1>Movies:</h1>
+
+  <a href="{% url 'catalog:movie-create' %}" class="btn btn-primary">
+    Create
+  </a>
+
   <ul>
     {% for movie in movie_list %}
       <li><a href="{% url 'catalog:movie-detail' pk=movie.id %}">{{ movie }}</a>
