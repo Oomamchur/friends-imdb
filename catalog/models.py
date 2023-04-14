@@ -33,10 +33,10 @@ class Movie(models.Model):
     year = models.IntegerField()
     description = models.TextField(blank=True)
     genres = models.ManyToManyField(Genre, related_name="movies")
-    actors = models.ManyToManyField(Actor, related_name="movies")
+    actors = models.ManyToManyField(Actor, blank=True, related_name="movies")
 
     class Meta:
-        ordering = ("title",)
+        ordering = ("year",)
 
     def __str__(self) -> str:
         return f"{self.title} ({self.year})"

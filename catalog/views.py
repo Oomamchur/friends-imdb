@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
 
+from catalog.forms import MovieForm
 from catalog.models import Movie, Actor, Genre
 
 
@@ -87,13 +88,13 @@ class MovieDetailView(LoginRequiredMixin, generic.DetailView):
 
 class MovieCreateView(LoginRequiredMixin, generic.CreateView):
     model = Movie
-    fields = "__all__"
+    form_class = MovieForm
     success_url = reverse_lazy("catalog:movie-list")
 
 
 class MovieUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Movie
-    fields = "__all__"
+    form_class = MovieForm
     success_url = reverse_lazy("catalog:movie-list")
 
 
