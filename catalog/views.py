@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.views import generic
@@ -30,7 +31,7 @@ class GenreListView(generic.ListView):
     paginate_by = 5
 
 
-class GenreDetailView(generic.DetailView):
+class GenreDetailView(LoginRequiredMixin, generic.DetailView):
     model = Genre
 
 
@@ -42,7 +43,7 @@ class ActorListView(generic.ListView):
     paginate_by = 10
 
 
-class ActorDetailView(generic.DetailView):
+class ActorDetailView(LoginRequiredMixin, generic.DetailView):
     model = Actor
 
 
@@ -54,5 +55,5 @@ class MovieListView(generic.ListView):
     paginate_by = 10
 
 
-class MovieDetailView(generic.DetailView):
+class MovieDetailView(LoginRequiredMixin, generic.DetailView):
     model = Movie
