@@ -2,7 +2,11 @@
 
 
 {% block content %}
-  <h1>Movie: {{ movie.title }}</h1>
+  <h1>Movie: {{ movie.title }}
+  <a href="{% url 'catalog:movie-update' pk=movie.id %}" class="btn btn-secondary link-to-page">
+    Update
+  </a>
+  </h1>
   <h5>Release year: {{ movie.year }}</h5>
   <br>
   <h5>Genres:
