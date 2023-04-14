@@ -7,7 +7,7 @@
     {% for actor in actor_list %}
       <li>
         <a href="{% url 'catalog:actor-detail' pk=actor.id %}">{{ actor }}</a>
-         ({{ actor.movies.count }} movies)
+         ({{ actor.movies.count }} movie{{ actor.movies.count|pluralize }})
       </li>
     {% endfor %}
   </ul>
