@@ -82,3 +82,9 @@ class MovieCreateView(LoginRequiredMixin, generic.CreateView):
     model = Movie
     fields = "__all__"
     success_url = reverse_lazy("catalog:movie-list")
+
+
+class MovieUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Movie
+    fields = "__all__"
+    success_url = reverse_lazy("catalog:movie-list")
