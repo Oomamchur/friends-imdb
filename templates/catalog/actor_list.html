@@ -3,6 +3,10 @@
 
 {% block content %}
   <h1>Actors:</h1>
+
+  <a href="{% url 'catalog:actor-create' %}" class="btn btn-primary">
+    Create
+  </a>
   <ul>
     {% for actor in actor_list %}
       <li>
