@@ -6,6 +6,9 @@
   <a href="{% url 'catalog:movie-update' pk=movie.id %}" class="btn btn-secondary link-to-page">
     Update
   </a>
+  <a href="{% url 'catalog:movie-delete' pk=movie.id %}" class="btn btn-danger link-to-page">
+    Delete
+  </a>
   </h1>
   <h5>Release year: {{ movie.year }}</h5>
   <br>
