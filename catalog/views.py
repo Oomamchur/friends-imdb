@@ -60,6 +60,12 @@ class ActorCreateView(LoginRequiredMixin, generic.CreateView):
     success_url = reverse_lazy("catalog:actor-list")
 
 
+class ActorUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Actor
+    fields = "__all__"
+    success_url = reverse_lazy("catalog:actor-list")
+
+
 class MovieListView(generic.ListView):
     model = Movie
     template_name = "catalog/movie_list.html"
