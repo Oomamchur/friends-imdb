@@ -1,0 +1,15 @@
+<ul class="sidebar-nav">
+  {% if user.is_authenticated %}
+    <li>User: {{ user.username }}</li>
+    <li><a href="#">Logout</a></li>
+  {% else %}
+    <li><a href="#">Login</a></li>
+  {% endif %}
+
+  <br>
+
+  <li><a href="{% url 'catalog:index' %}">Home page</a></li>
+  <li><a href="{% url 'catalog:movie-list' %}">All movies</a></li>
+  <li><a href="{% url 'catalog:genre-list' %}">All genres</a></li>
+  <li><a href="{% url 'catalog:actor-list' %}">All Actors</a></li>
+</ul>
