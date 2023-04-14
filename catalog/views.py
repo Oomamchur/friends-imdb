@@ -35,6 +35,13 @@ class GenreDetailView(LoginRequiredMixin, generic.DetailView):
     model = Genre
 
 
+class GenreUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Genre
+    fields = "__all__"
+    template_name = "catalog/genre_form.html"
+    success_url = reverse_lazy("catalog:genre-list")
+
+
 class ActorListView(generic.ListView):
     model = Actor
     template_name = "catalog/actor_list.html"
