@@ -2,7 +2,11 @@
 
 
 {% block content %}
-  <h1>Genre: {{ genre.name }}</h1>
+  <h1>Genre: {{ genre.name }}
+  <a href="{% url 'catalog:genre-update' pk=genre.id %}" class="btn btn-secondary link-to-page">
+    Update
+  </a>
+  </h1>
 
   <h3>Movies:</h3>
   <ul>
