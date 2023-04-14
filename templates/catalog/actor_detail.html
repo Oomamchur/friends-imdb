@@ -2,7 +2,11 @@
 
 
 {% block content %}
-  <h1>Actor: {{ actor.first_name }} {{ actor.last_name }}</h1>
+  <h1>Actor: {{ actor.first_name }} {{ actor.last_name }}
+  <a href="{% url 'catalog:actor-update' pk=actor.id %}" class="btn btn-secondary link-to-page">
+    Update
+  </a>
+  </h1>
 
   <h3>Filmography:</h3>
   <ul>
