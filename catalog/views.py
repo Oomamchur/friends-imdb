@@ -1,6 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.views import generic
 
 from catalog.models import Movie, Actor, Genre
@@ -28,7 +29,6 @@ class GenreListView(generic.ListView):
     template_name = "catalog/genre_list.html"
     context_object_name = "genre_list"
     queryset = Genre.objects.all().order_by("name")
-    paginate_by = 5
 
 
 class GenreDetailView(LoginRequiredMixin, generic.DetailView):
@@ -45,6 +45,12 @@ class ActorListView(generic.ListView):
 
 class ActorDetailView(LoginRequiredMixin, generic.DetailView):
     model = Actor
+
+
+class ActorCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Actor
+    fields = "__all__"
+    success_url = reverse_lazy("catalog:actor-list")
 
 
 class MovieListView(generic.ListView):
