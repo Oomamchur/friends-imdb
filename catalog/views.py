@@ -9,10 +9,15 @@ def index(request: HttpRequest) -> HttpResponse:
     num_movies = Movie.objects.count()
     num_actors = Actor.objects.count()
     num_genres = Genre.objects.count()
+
+    num_visits = request.session.get("num_visits", 0)
+    request.session["num_visits"] = num_visits + 1
+
     context = {
         "num_movies": num_movies,
         "num_actors": num_actors,
-        "num_genres": num_genres
+        "num_genres": num_genres,
+        "num_visits": num_visits + 1,
     }
     return render(request, "catalog/index.html", context=context)
 
