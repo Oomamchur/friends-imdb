@@ -32,7 +32,7 @@ class GenreListView(generic.ListView):
     queryset = Genre.objects.all().order_by("name")
 
 
-class GenreDetailView(LoginRequiredMixin, generic.DetailView):
+class GenreDetailView(generic.DetailView):
     model = Genre
 
 
@@ -51,7 +51,7 @@ class ActorListView(generic.ListView):
     paginate_by = 10
 
 
-class ActorDetailView(LoginRequiredMixin, generic.DetailView):
+class ActorDetailView(generic.DetailView):
     model = Actor
 
 
@@ -82,7 +82,7 @@ class MovieListView(generic.ListView):
     paginate_by = 10
 
 
-class MovieDetailView(LoginRequiredMixin, generic.DetailView):
+class MovieDetailView(generic.DetailView):
     model = Movie
 
 

@@ -1,8 +1,9 @@
 from django import forms
+from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django.core.validators import MinValueValidator
 
-from catalog.models import Movie, User
+from catalog.models import Movie, User, Genre, Actor
 
 
 class MovieForm(forms.ModelForm):
@@ -10,6 +11,14 @@ class MovieForm(forms.ModelForm):
     year = forms.IntegerField(
         required=True,
         validators=[MinValueValidator(min_year)]
+    )
+    genres = forms.ModelMultipleChoiceField(
+        queryset=Genre.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+    )
+    actors = forms.ModelMultipleChoiceField(
+        queryset=Actor.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
     )
 
     class Meta:
