@@ -27,6 +27,8 @@ class MovieForm(forms.ModelForm):
 
 
 class ImdbUserCreationForm(UserCreationForm):
+    email = forms.EmailField(required=True)
+
     class Meta(UserCreationForm.Meta):
         model = User
         fields = UserCreationForm.Meta.fields + (
