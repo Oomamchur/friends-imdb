@@ -4,8 +4,8 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
 
-from catalog.forms import MovieForm
-from catalog.models import Movie, Actor, Genre
+from catalog.forms import MovieForm, ImdbUserCreationForm
+from catalog.models import Movie, Actor, Genre, User
 
 
 def index(request: HttpRequest) -> HttpResponse:
@@ -103,3 +103,9 @@ class MovieDeleteView(LoginRequiredMixin, generic.DeleteView):
     fields = "__all__"
     template_name = "catalog/movie_confirm_delete.html"
     success_url = reverse_lazy("catalog:movie-list")
+
+
+class UserCreateView(generic.CreateView):
+    model = User
+    form_class = ImdbUserCreationForm
+    success_url = reverse_lazy("login")

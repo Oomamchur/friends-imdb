@@ -1,7 +1,8 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
 from django.core.validators import MinValueValidator
 
-from catalog.models import Movie
+from catalog.models import Movie, User
 
 
 class MovieForm(forms.ModelForm):
@@ -14,3 +15,13 @@ class MovieForm(forms.ModelForm):
     class Meta:
         model = Movie
         fields = "__all__"
+
+
+class ImdbUserCreationForm(UserCreationForm):
+    class Meta(UserCreationForm.Meta):
+        model = User
+        fields = UserCreationForm.Meta.fields + (
+            "first_name",
+            "last_name",
+            "email"
+        )
