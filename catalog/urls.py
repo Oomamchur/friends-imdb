@@ -51,6 +51,7 @@ urlpatterns = [
         MovieDeleteView.as_view(),
         name="movie-delete"
     ),
+    # path("users/create/", UserCreateView.as_view(), name="user-create"),
 ]
 
 app_name = "catalog"
