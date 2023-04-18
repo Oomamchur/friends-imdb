@@ -18,6 +18,7 @@ class MovieForm(forms.ModelForm):
     )
     actors = forms.ModelMultipleChoiceField(
         queryset=Actor.objects.all(),
+        required=False,
         widget=forms.CheckboxSelectMultiple,
     )
 
