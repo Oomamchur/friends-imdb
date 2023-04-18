@@ -2,15 +2,17 @@
 
 
 {% block content %}
-  <h1>Actor: {{ actor.first_name }} {{ actor.last_name }}
-  <a href="{% url 'catalog:actor-update' pk=actor.id %}" class="btn btn-secondary link-to-page">
-    Update
-  </a>
-  <a href="{% url 'catalog:actor-delete' pk=actor.id %}" class="btn btn-danger link-to-page">
-    Delete
-  </a>
-  </h1>
-
+  <div class="d-flex align-items-center">
+    <h1 class="mr-auto">Actor: {{ actor.first_name }} {{ actor.last_name }}</h1>
+    <div class="d-flex align-items-center">
+      <a href="{% url 'catalog:actor-update' pk=actor.id %}" class="btn btn-secondary link-to-page ml-2">
+        Update
+      </a>
+      <a href="{% url 'catalog:actor-delete' pk=actor.id %}" class="btn btn-danger link-to-page ml-2">
+        Delete
+      </a>
+    </div>
+  </div>
   <h3>Filmography:</h3>
   <ul>
     {% for movie in actor.movies.all %}

@@ -2,14 +2,17 @@
 
 
 {% block content %}
-  <h1>Movie: {{ movie.title }}
-  <a href="{% url 'catalog:movie-update' pk=movie.id %}" class="btn btn-secondary link-to-page">
-    Update
-  </a>
-  <a href="{% url 'catalog:movie-delete' pk=movie.id %}" class="btn btn-danger link-to-page">
-    Delete
-  </a>
-  </h1>
+  <div class="d-flex align-items-center">
+    <h1 class="mr-auto">Movie: {{ movie.title }}</h1>
+    <div class="d-flex align-items-center">
+      <a href="{% url 'catalog:movie-update' pk=movie.id %}" class="btn btn-secondary link-to-page ml-2">
+        Update
+      </a>
+      <a href="{% url 'catalog:movie-delete' pk=movie.id %}" class="btn btn-danger link-to-page ml-2">
+        Delete
+      </a>
+    </div>
+  </div>
   <h5>Release year: {{ movie.year }}</h5>
   <br>
   <h5>Genres:

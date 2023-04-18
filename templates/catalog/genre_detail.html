@@ -2,12 +2,14 @@
 
 
 {% block content %}
-  <h1>Genre: {{ genre.name }}
-  <a href="{% url 'catalog:genre-update' pk=genre.id %}" class="btn btn-secondary link-to-page">
-    Update
-  </a>
-  </h1>
-
+  <div class="d-flex align-items-center">
+    <h1 class="mr-auto">Genre: {{ genre.name }}</h1>
+    <div class="d-flex align-items-center">
+      <a href="{% url 'catalog:genre-update' pk=genre.id %}" class="btn btn-secondary link-to-page ml-2">
+        Update
+      </a>
+    </div>
+  </div>
   <h3>Movies:</h3>
   <ul>
     {% for movie in genre.movies.all %}
