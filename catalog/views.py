@@ -1,10 +1,11 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import QuerySet, Q
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
 
-from catalog.forms import MovieForm, ImdbUserCreationForm
+from catalog.forms import MovieForm, ImdbUserCreationForm, ActorSearchForm
 from catalog.models import Movie, Actor, Genre, User
 
 
@@ -49,6 +50,25 @@ class ActorListView(generic.ListView):
     context_object_name = "actor_list"
     queryset = Actor.objects.all().order_by("last_name")
     paginate_by = 10
+
+    def get_context_data(self, *, object_list=None, **kwargs) -> dict:
+        context = super(ActorListView, self).get_context_data(**kwargs)
+
+        context["search_form"] = ActorSearchForm
+
+        return context
+
+    def get_queryset(self) -> QuerySet:
+        form = ActorSearchForm(self.request.GET)
+
+        if form.is_valid():
+            query = Q(
+                last_name__icontains=form.cleaned_data["last_name"]
+            ) | Q(
+                first_name__icontains=form.cleaned_data["last_name"]
+            )
+            return self.queryset.filter(query)
+        return self.queryset
 
 
 class ActorDetailView(generic.DetailView):
