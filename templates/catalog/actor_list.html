@@ -1,12 +1,18 @@
 {% extends "base.html" %}
+{% load crispy_forms_filters %}
 
 
 {% block content %}
-  <h1>Actors:</h1>
+  <div class="d-flex justify-content-between align-items-center">
+    <h1 class="m-0">Actors:</h1>
 
-  <a href="{% url 'catalog:actor-create' %}" class="btn btn-primary">
-    Create
-  </a>
+    <a href="{% url 'catalog:actor-create' %}" class="btn btn-primary ml-auto">
+      Create
+    </a>
+  </div>
+  {% block search %}
+    {% include "includes/search.html" %}
+  {% endblock %}
   <ul>
     {% for actor in actor_list %}
       <li>
