@@ -35,7 +35,6 @@ class GenreListView(generic.ListView):
     model = Genre
     template_name = "catalog/genre_list.html"
     context_object_name = "genre_list"
-    queryset = Genre.objects.all().order_by("name")
 
 
 class GenreDetailView(generic.DetailView):
@@ -53,7 +52,6 @@ class ActorListView(generic.ListView):
     model = Actor
     template_name = "catalog/actor_list.html"
     context_object_name = "actor_list"
-    queryset = Actor.objects.all().order_by("last_name")
     paginate_by = 10
 
     def get_context_data(self, *, object_list=None, **kwargs) -> dict:
@@ -64,6 +62,7 @@ class ActorListView(generic.ListView):
         return context
 
     def get_queryset(self) -> QuerySet:
+        queryset = Actor.objects.prefetch_related("movies")
         form = ActorSearchForm(self.request.GET)
 
         if form.is_valid():
@@ -72,8 +71,8 @@ class ActorListView(generic.ListView):
             ) | Q(
                 first_name__icontains=form.cleaned_data["last_name"]
             )
-            return self.queryset.filter(query)
-        return self.queryset
+            return queryset.filter(query)
+        return queryset
 
 
 class ActorDetailView(generic.DetailView):
@@ -103,7 +102,6 @@ class MovieListView(generic.ListView):
     model = Movie
     template_name = "catalog/movie_list.html"
     context_object_name = "movie_list"
-    queryset = Movie.objects.all().prefetch_related("genres")
     paginate_by = 10
 
     def get_context_data(self, *, object_list=None, **kwargs) -> dict:
@@ -114,6 +112,7 @@ class MovieListView(generic.ListView):
         return context
 
     def get_queryset(self) -> QuerySet:
+        queryset = Movie.objects.prefetch_related("genres")
         form = MovieSearchForm(self.request.GET)
 
         if form.is_valid():
@@ -122,8 +121,8 @@ class MovieListView(generic.ListView):
             ) | Q(
                 year__icontains=form.cleaned_data["title"]
             )
-            return self.queryset.filter(query)
-        return self.queryset
+            return queryset.filter(query)
+        return queryset
 
 
 class MovieDetailView(generic.DetailView):

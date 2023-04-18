@@ -32,7 +32,9 @@ class MovieSearchForm(forms.Form):
         max_length=255,
         required=False,
         label="",
-        widget=forms.TextInput(attrs={"placeholder": "Search by title or year"})
+        widget=forms.TextInput(
+            attrs={"placeholder": "Search by title or year"}
+        )
     )
 
 
