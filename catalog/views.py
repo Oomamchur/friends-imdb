@@ -33,6 +33,7 @@ def index(request: HttpRequest) -> HttpResponse:
 
 class GenreListView(generic.ListView):
     model = Genre
+    queryset = Genre.objects.prefetch_related("movies")
     template_name = "catalog/genre_list.html"
     context_object_name = "genre_list"
 
