@@ -5,7 +5,12 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
 
-from catalog.forms import MovieForm, ImdbUserCreationForm, ActorSearchForm
+from catalog.forms import (
+    ActorSearchForm,
+    MovieForm,
+    MovieSearchForm,
+    ImdbUserCreationForm
+)
 from catalog.models import Movie, Actor, Genre, User
 
 
@@ -100,6 +105,25 @@ class MovieListView(generic.ListView):
     context_object_name = "movie_list"
     queryset = Movie.objects.all().prefetch_related("genres")
     paginate_by = 10
+
+    def get_context_data(self, *, object_list=None, **kwargs) -> dict:
+        context = super(MovieListView, self).get_context_data(**kwargs)
+
+        context["search_form"] = MovieSearchForm
+
+        return context
+
+    def get_queryset(self) -> QuerySet:
+        form = MovieSearchForm(self.request.GET)
+
+        if form.is_valid():
+            query = Q(
+                title__icontains=form.cleaned_data["title"]
+            ) | Q(
+                year__icontains=form.cleaned_data["title"]
+            )
+            return self.queryset.filter(query)
+        return self.queryset
 
 
 class MovieDetailView(generic.DetailView):

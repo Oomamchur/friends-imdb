@@ -26,6 +26,15 @@ class MovieForm(forms.ModelForm):
         fields = "__all__"
 
 
+class MovieSearchForm(forms.Form):
+    title = forms.CharField(
+        max_length=255,
+        required=False,
+        label="",
+        widget=forms.TextInput(attrs={"placeholder": "Search by title or year"})
+    )
+
+
 class ImdbUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True)
 
