@@ -41,6 +41,18 @@ class PublicActorTests(TestCase):
             "/accounts/login/?next=/actors/create/"
         )
 
+    def test_no_access_to_update_actor_without_login(self) -> None:
+        response = self.client.get(reverse(
+            "catalog:actor-update",
+            kwargs={"pk": self.actor.pk}
+        ))
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(
+            response,
+            "/accounts/login/?next=/actors/1/update"
+        )
+
     def test_actor_list_search(self) -> None:
         response = self.client.get(ACTOR_URL, {"name": "sur"})
 
@@ -75,5 +87,5 @@ class PrivateActorTests(TestCase):
         response = self.client.post(reverse("catalog:actor-create"), new_data)
         actor = Actor.objects.get(last_name=new_data["last_name"])
 
-        self.assertRedirects(response, reverse("catalog:actor-list"))
+        self.assertRedirects(response, ACTOR_URL)
         self.assertEqual(actor.last_name, new_data["last_name"])

@@ -68,5 +68,5 @@ class PrivateGenreTests(TestCase):
         )
         updated_genre = Genre.objects.get(pk=self.genre.pk)
 
-        self.assertRedirects(response, reverse("catalog:genre-list"))
+        self.assertRedirects(response, GENRE_URL)
         self.assertEqual(updated_genre.name, new_data["name"])
