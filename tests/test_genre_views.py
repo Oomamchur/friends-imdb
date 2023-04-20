@@ -27,9 +27,9 @@ class PublicGenreTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "catalog/genre_detail.html")
-        self.assertContains(response, self.genre.id)
+        self.assertContains(response, self.genre.name)
 
-    def test_no_acces_to_update_without_login(self) -> None:
+    def test_no_access_to_update_genre_without_login(self) -> None:
         response = self.client.get(reverse(
             "catalog:genre-update",
             kwargs={"pk": self.genre.pk}
@@ -51,7 +51,7 @@ class PrivateGenreTests(TestCase):
         self.client.force_login(self.user)
         self.genre = Genre.objects.create(name="test")
 
-    def test_access_to_update_with_login(self) -> None:
+    def test_access_to_update_genre_with_login(self) -> None:
         response = self.client.get(reverse(
             "catalog:genre-update",
             kwargs={"pk": self.genre.pk}
@@ -61,11 +61,12 @@ class PrivateGenreTests(TestCase):
         self.assertTemplateUsed(response, "catalog/genre_form.html")
 
     def test_update_genre(self) -> None:
+        new_data = {"name": "Comedy"}
         response = self.client.post(
             reverse("catalog:genre-update", kwargs={"pk": self.genre.pk}),
-            {"name": "Comedy"}
+            new_data
         )
         updated_genre = Genre.objects.get(pk=self.genre.pk)
 
         self.assertRedirects(response, reverse("catalog:genre-list"))
-        self.assertEqual(updated_genre.name, "Comedy")
+        self.assertEqual(updated_genre.name, new_data["name"])
