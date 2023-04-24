@@ -1,8 +1,9 @@
+from django.contrib.auth import get_user
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import QuerySet, Q
+from django.db.models import QuerySet, Q, Avg
 from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render
-from django.urls import reverse_lazy
+from django.shortcuts import render, get_object_or_404
+from django.urls import reverse_lazy, reverse
 from django.views import generic
 
 from catalog.forms import (
@@ -11,7 +12,7 @@ from catalog.forms import (
     MovieSearchForm,
     ImdbUserCreationForm
 )
-from catalog.models import Movie, Actor, Genre, User
+from catalog.models import Movie, Actor, Genre, User, Rating
 
 
 def index(request: HttpRequest) -> HttpResponse:
@@ -89,7 +90,9 @@ class ActorCreateView(LoginRequiredMixin, generic.CreateView):
 class ActorUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Actor
     fields = "__all__"
-    success_url = reverse_lazy("catalog:actor-list")
+
+    def get_success_url(self) -> HttpResponse:
+        return reverse("catalog:actor-detail", args=[self.object.pk])
 
 
 class ActorDeleteView(LoginRequiredMixin, generic.DeleteView):
@@ -129,6 +132,21 @@ class MovieListView(generic.ListView):
 class MovieDetailView(generic.DetailView):
     model = Movie
 
+    def get_context_data(self, **kwargs) -> dict:
+        context = super().get_context_data(**kwargs)
+        context["genre_list"] = self.object.genres.all()
+        avg_rating = self.object.ratings.aggregate(Avg("rating"))
+        if avg_rating["rating__avg"]:
+            context["avg_rating"] = round(avg_rating["rating__avg"], 1)
+        if self.request.user.is_authenticated:
+            user = get_user(self.request)
+            rating_query = Rating.objects.filter(user=user, movie=self.object)
+            rating = None
+            if rating_query.exists():
+                rating = rating_query.first().rating
+            context["rating"] = rating
+        return context
+
 
 class MovieCreateView(LoginRequiredMixin, generic.CreateView):
     model = Movie
@@ -139,7 +157,9 @@ class MovieCreateView(LoginRequiredMixin, generic.CreateView):
 class MovieUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Movie
     form_class = MovieForm
-    success_url = reverse_lazy("catalog:movie-list")
+
+    def get_success_url(self) -> HttpResponse:
+        return reverse("catalog:movie-detail", args=[self.object.pk])
 
 
 class MovieDeleteView(LoginRequiredMixin, generic.DeleteView):
