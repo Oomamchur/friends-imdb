@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.core.validators import MinValueValidator
 
-from catalog.models import Movie, User, Genre, Actor
+from catalog.models import Movie, User, Genre, Actor, Rating
 
 
 class MovieForm(forms.ModelForm):
@@ -56,3 +56,16 @@ class ActorSearchForm(forms.Form):
         label="",
         widget=forms.TextInput(attrs={"placeholder": "Search by name"})
     )
+
+
+class RatingForm(forms.ModelForm):
+    rating = forms.IntegerField(
+        min_value=1,
+        max_value=10,
+        label="",
+        widget=forms.TextInput(attrs={"placeholder": "Write your rating"})
+    )
+
+    class Meta:
+        model = Rating
+        exclude = ['movie', 'user']
