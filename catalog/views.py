@@ -1,8 +1,8 @@
 from django.contrib.auth import get_user
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import QuerySet, Q, Avg
-from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render, get_object_or_404
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
+from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views import generic
 
@@ -10,7 +10,7 @@ from catalog.forms import (
     ActorSearchForm,
     MovieForm,
     MovieSearchForm,
-    ImdbUserCreationForm
+    ImdbUserCreationForm, RatingForm
 )
 from catalog.models import Movie, Actor, Genre, User, Rating
 
@@ -135,17 +135,34 @@ class MovieDetailView(generic.DetailView):
     def get_context_data(self, **kwargs) -> dict:
         context = super().get_context_data(**kwargs)
         context["genre_list"] = self.object.genres.all()
+        context["form"] = RatingForm()
         avg_rating = self.object.ratings.aggregate(Avg("rating"))
         if avg_rating["rating__avg"]:
             context["avg_rating"] = round(avg_rating["rating__avg"], 1)
         if self.request.user.is_authenticated:
             user = get_user(self.request)
-            rating_query = Rating.objects.filter(user=user, movie=self.object)
-            rating = None
-            if rating_query.exists():
-                rating = rating_query.first().rating
-            context["rating"] = rating
+            try:
+                rate = Rating.objects.get(user=user, movie=self.object).rating
+            except Rating.DoesNotExist:
+                rate = None
+            context["rating"] = rate
         return context
+
+    def post(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
+        form = RatingForm(request.POST)
+        if form.is_valid():
+            movie = Movie.objects.get(pk=kwargs.get("pk"))
+            rating, created = Rating.objects.get_or_create(
+                movie=movie,
+                user=request.user
+            )
+            if created or 'rating' in form.changed_data:
+                rating.rating = form.cleaned_data['rating']
+                rating.save()
+            return HttpResponseRedirect(reverse(
+                "catalog:movie-detail",
+                args=[kwargs.get("pk")]
+            ))
 
 
 class MovieCreateView(LoginRequiredMixin, generic.CreateView):
