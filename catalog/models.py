@@ -53,7 +53,4 @@ class Rating(models.Model):
         on_delete=models.CASCADE,
         related_name="ratings"
     )
-    rating = models.IntegerField()
-
-    class Meta:
-        unique_together = ('movie', 'user',)
+    rating = models.IntegerField(null=True)
