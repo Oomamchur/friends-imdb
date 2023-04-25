@@ -1,0 +1,8 @@
+.custom-form {
+  display: flex;
+  align-items: center;
+}
+
+.custom-btn {
+  height: inherit;
+}

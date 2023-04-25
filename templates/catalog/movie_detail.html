@@ -14,13 +14,35 @@
     </div>
   </div>
   <h5>Release year: {{ movie.year }}</h5>
-  <br>
+  <h5>Rating: {{ avg_rating }} / 10</h5>
   <h5>Genres:
-  {% for genre in genre_list %}
-    <a href="{% url 'catalog:genre-detail' pk=genre.id %}">{{ genre.name }}</a>
-  {% endfor %}
+    {% for genre in genre_list %}
+      <a href="{% url 'catalog:genre-detail' pk=genre.id %}">{{ genre.name }}</a>
+    {% endfor %}
   </h5>
   <br>
+  <h6>
+    {% if user.is_authenticated %}
+      {% if rating %}
+        <h5>Your rating: {{ rating }}</h5>
+        <form action="{% url 'catalog:movie-detail' pk=movie.id %}" method="post" class="form-inline custom-form">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <input class="btn btn-primary custom-btn" type="submit" value="Rate">
+        </form>
+      {% else %}
+        <form action="{% url 'catalog:movie-detail' pk=movie.id %}" method="post" class="form-inline custom-form">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <input class="btn btn-primary custom-btn" type="submit" value="Rate">
+        </form>
+      {% endif %}
+    {% else %}
+      <p><a href="{% url 'login' %}" class="btn btn-info">Rate movie</a></p>
+    {% endif %}
+  </h6>
+
+
   <h6>Cast:</h6>
   <ul>
     {% for actor in movie.actors.all %}
@@ -29,16 +51,4 @@
       </li>
     {% endfor %}
   </ul>
-  <h6><p>Rating: {{ avg_rating }} / 10</p>
-  {% if user.is_authenticated %}
-    {% if rating %}
-      <p>Your rating: {{ rating }} / 10
-      <a href="#" class="btn btn-info">Change Rating</a></p>
-    {% else %}
-      <a href="#" class="btn btn-info">Rate Movie</a></p>
-    {% endif %}
-  {% else %}
-    <p><a href="{% url 'login' %}" class="btn btn-info">Rate movie</a></p>
-  {% endif %}
-  </h6>
 {% endblock %}
