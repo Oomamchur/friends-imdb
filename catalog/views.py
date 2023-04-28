@@ -18,16 +18,17 @@ from catalog.models import Movie, Actor, Genre, User, Rating
 def index(request: HttpRequest) -> HttpResponse:
     num_movies = Movie.objects.count()
     num_actors = Actor.objects.count()
-    num_genres = Genre.objects.count()
-
+    num_users = User.objects.count()
+    last_added = Movie.objects.all().order_by('-id')[:3]
     num_visits = request.session.get("num_visits", 0)
     request.session["num_visits"] = num_visits + 1
 
     context = {
         "num_movies": num_movies,
         "num_actors": num_actors,
-        "num_genres": num_genres,
+        "num_users": num_users,
         "num_visits": num_visits + 1,
+        "last_added": last_added
     }
     return render(request, "catalog/index.html", context=context)
 

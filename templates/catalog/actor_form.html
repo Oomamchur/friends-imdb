@@ -1,11 +1,17 @@
-{% extends "base.html" %}
+{% extends "base-presentation.html" %}
 {% load crispy_forms_filters %}
 
 {% block content %}
-  <h1>{{ object|yesno:"Update, Create" }} Actor</h1>
-  <form action="" method="post" novalidate>
-    {% csrf_token %}
-    {{ form|crispy }}
-    <input class="btn btn-primary" type="submit" value="Submit">
-  </form>
+  <div class="container top-5 mt-7" >
+    <div class="row">
+      <div class="col-4">
+        <h1>{{ object|yesno:"Update, Create" }} Actor</h1>
+        <form action="" method="post" novalidate>
+          {% csrf_token %}
+          {{ form|crispy }}
+          <input class="btn btn-primary" type="submit" value="Submit">
+        </form>
+      </div>
+    </div>
+  </div>
 {% endblock %}

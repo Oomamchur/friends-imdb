@@ -1,24 +1,29 @@
-{% extends "base.html" %}
-
+{% extends "base-presentation.html" %}
 
 {% block content %}
-  <div class="d-flex align-items-center">
-    <h1 class="mr-auto">Actor: {{ actor.first_name }} {{ actor.last_name }}</h1>
-    <div class="d-flex align-items-center">
-      <a href="{% url 'catalog:actor-update' pk=actor.id %}" class="btn btn-secondary link-to-page ml-2">
-        Update
-      </a>
-      <a href="{% url 'catalog:actor-delete' pk=actor.id %}" class="btn btn-danger link-to-page ml-2">
-        Delete
-      </a>
+  <div class="container top-5 mt-7" >
+    <div class="row">
+      <div class="col-12">
+        <div class="d-flex justify-content-between">
+          <h3 class="mr-auto">Actor: {{ actor.first_name }} {{ actor.last_name }}</h3>
+          <div class="ml-auto">
+            <a href="{% url 'catalog:actor-update' pk=actor.id %}" class="btn btn-secondary link-to-page mr-2">
+              Update
+            </a>
+            <a href="{% url 'catalog:actor-delete' pk=actor.id %}" class="btn btn-danger link-to-page">
+              Delete
+            </a>
+          </div>
+        </div>
+        <h5>Filmography:</h5>
+        <ul>
+          {% for movie in actor.movies.all %}
+          <li>
+            <a href="{% url 'catalog:movie-detail' pk=movie.id %}">{{ movie }}</a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
     </div>
   </div>
-  <h3>Filmography:</h3>
-  <ul>
-    {% for movie in actor.movies.all %}
-    <li>
-      <a href="{% url 'catalog:movie-detail' pk=movie.id %}">{{ movie }}</a>
-    </li>
-    {% endfor %}
-  </ul>
 {% endblock %}

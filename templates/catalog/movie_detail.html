@@ -1,54 +1,61 @@
-{% extends "base.html" %}
+{% extends "base-presentation.html" %}
 
 
 {% block content %}
-  <div class="d-flex align-items-center">
-    <h1 class="mr-auto">Movie: {{ movie.title }}</h1>
-    <div class="d-flex align-items-center">
-      <a href="{% url 'catalog:movie-update' pk=movie.id %}" class="btn btn-secondary link-to-page ml-2">
-        Update
-      </a>
-      <a href="{% url 'catalog:movie-delete' pk=movie.id %}" class="btn btn-danger link-to-page ml-2">
-        Delete
-      </a>
+  <div class="container top-5 mt-7" >
+    <div class="row">
+      <div class="col-12">
+        <div class="d-flex justify-content-between">
+          <h3 class="mr-auto">Movie: {{ movie.title }}</h3>
+          <div class="ml-auto">
+            <a href="{% url 'catalog:movie-update' pk=movie.id %}" class="btn btn-secondary link-to-page ml-2">
+              Update
+            </a>
+            <a href="{% url 'catalog:movie-delete' pk=movie.id %}" class="btn btn-danger link-to-page ml-2">
+              Delete
+            </a>
+          </div>
+        </div>
+        <h6>Release year: {{ movie.year }}</h6>
+        <h6>Rating: {{ avg_rating }} / 10</h6>
+        <h6>Genres:
+          {% for genre in genre_list %}
+            <a href="{% url 'catalog:genre-detail' pk=genre.id %}">{{ genre.name }}</a>
+          {% endfor %}
+        </h6>
+        <div class="col-md-2 card move-on-hover">
+          <img class="w-100" src="{{ ASSETS_ROOT }}/img/movies/{{ movie.id }}.jpg" alt="">
+        </div>
+        <br>
+          {% if user.is_authenticated %}
+            {% if rating %}
+              <h6>Your rating: {{ rating }}</h6>
+              <form action="{% url 'catalog:movie-detail' pk=movie.id %}" method="post" class="form-inline custom-form">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input class="btn btn-primary custom-btn" type="submit" value="Change Rating">
+              </form>
+            {% else %}
+              <form action="{% url 'catalog:movie-detail' pk=movie.id %}" method="post" class="form-inline custom-form">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input class="btn btn-primary custom-btn" type="submit" value="Rate">
+              </form>
+            {% endif %}
+          {% else %}
+            <p><a href="{% url 'login' %}" class="btn btn-info">Rate movie</a></p>
+          {% endif %}
+
+
+        <h6>Cast:</h6>
+        <ul>
+          {% for actor in movie.actors.all %}
+            <li>
+              <a href="{% url 'catalog:actor-detail' pk=actor.id %}">{{ actor.first_name }} {{ actor.last_name }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
     </div>
   </div>
-  <h5>Release year: {{ movie.year }}</h5>
-  <h5>Rating: {{ avg_rating }} / 10</h5>
-  <h5>Genres:
-    {% for genre in genre_list %}
-      <a href="{% url 'catalog:genre-detail' pk=genre.id %}">{{ genre.name }}</a>
-    {% endfor %}
-  </h5>
-  <br>
-  <h6>
-    {% if user.is_authenticated %}
-      {% if rating %}
-        <h5>Your rating: {{ rating }}</h5>
-        <form action="{% url 'catalog:movie-detail' pk=movie.id %}" method="post" class="form-inline custom-form">
-          {% csrf_token %}
-          {{ form.as_p }}
-          <input class="btn btn-primary custom-btn" type="submit" value="Rate">
-        </form>
-      {% else %}
-        <form action="{% url 'catalog:movie-detail' pk=movie.id %}" method="post" class="form-inline custom-form">
-          {% csrf_token %}
-          {{ form.as_p }}
-          <input class="btn btn-primary custom-btn" type="submit" value="Rate">
-        </form>
-      {% endif %}
-    {% else %}
-      <p><a href="{% url 'login' %}" class="btn btn-info">Rate movie</a></p>
-    {% endif %}
-  </h6>
-
-
-  <h6>Cast:</h6>
-  <ul>
-    {% for actor in movie.actors.all %}
-      <li>
-        <a href="{% url 'catalog:actor-detail' pk=actor.id %}">{{ actor.first_name }} {{ actor.last_name }}</a>
-      </li>
-    {% endfor %}
-  </ul>
 {% endblock %}
