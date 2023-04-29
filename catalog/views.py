@@ -10,7 +10,8 @@ from catalog.forms import (
     ActorSearchForm,
     MovieForm,
     MovieSearchForm,
-    ImdbUserCreationForm, RatingForm
+    ImdbUserCreationForm,
+    RatingForm,
 )
 from catalog.models import Movie, Actor, Genre, User, Rating
 
@@ -19,7 +20,7 @@ def index(request: HttpRequest) -> HttpResponse:
     num_movies = Movie.objects.count()
     num_actors = Actor.objects.count()
     num_users = User.objects.count()
-    last_added = Movie.objects.all().order_by('-id')[:3]
+    last_added = Movie.objects.all().order_by("-id")[:3]
     num_visits = request.session.get("num_visits", 0)
     request.session["num_visits"] = num_visits + 1
 
@@ -28,7 +29,7 @@ def index(request: HttpRequest) -> HttpResponse:
         "num_actors": num_actors,
         "num_users": num_users,
         "num_visits": num_visits + 1,
-        "last_added": last_added
+        "last_added": last_added,
     }
     return render(request, "catalog/index.html", context=context)
 
@@ -69,9 +70,7 @@ class ActorListView(generic.ListView):
         form = ActorSearchForm(self.request.GET)
 
         if form.is_valid():
-            query = Q(
-                last_name__icontains=form.cleaned_data["last_name"]
-            ) | Q(
+            query = Q(last_name__icontains=form.cleaned_data["last_name"]) | Q(
                 first_name__icontains=form.cleaned_data["last_name"]
             )
             return queryset.filter(query)
@@ -121,9 +120,7 @@ class MovieListView(generic.ListView):
         form = MovieSearchForm(self.request.GET)
 
         if form.is_valid():
-            query = Q(
-                title__icontains=form.cleaned_data["title"]
-            ) | Q(
+            query = Q(title__icontains=form.cleaned_data["title"]) | Q(
                 year__icontains=form.cleaned_data["title"]
             )
             return queryset.filter(query)
@@ -154,16 +151,14 @@ class MovieDetailView(generic.DetailView):
         if form.is_valid():
             movie = Movie.objects.get(pk=kwargs.get("pk"))
             rating, created = Rating.objects.get_or_create(
-                movie=movie,
-                user=request.user
+                movie=movie, user=request.user
             )
-            if created or 'rating' in form.changed_data:
-                rating.rating = form.cleaned_data['rating']
+            if created or "rating" in form.changed_data:
+                rating.rating = form.cleaned_data["rating"]
                 rating.save()
-            return HttpResponseRedirect(reverse(
-                "catalog:movie-detail",
-                args=[kwargs.get("pk")]
-            ))
+            return HttpResponseRedirect(
+                reverse("catalog:movie-detail", args=[kwargs.get("pk")])
+            )
 
 
 class MovieCreateView(LoginRequiredMixin, generic.CreateView):

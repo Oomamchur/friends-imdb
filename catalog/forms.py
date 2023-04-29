@@ -33,7 +33,7 @@ class MovieSearchForm(forms.Form):
         label="",
         widget=forms.TextInput(
             attrs={"placeholder": "Search by title or year"}
-        )
+        ),
     )
 
 
@@ -54,7 +54,9 @@ class ActorSearchForm(forms.Form):
         max_length=255,
         required=False,
         label="",
-        widget=forms.TextInput(attrs={"placeholder": "Search by name"})
+        widget=forms.TextInput(
+            attrs={"placeholder": "Search by name"}
+        ),
     )
 
 
@@ -63,9 +65,11 @@ class RatingForm(forms.ModelForm):
         min_value=1,
         max_value=10,
         label="",
-        widget=forms.TextInput(attrs={"placeholder": "Write your rating"})
+        widget=forms.TextInput(
+            attrs={"placeholder": "Write your rating"}
+        ),
     )
 
     class Meta:
         model = Rating
-        exclude = ['movie', 'user']
+        exclude = ["movie", "user"]
