@@ -2,7 +2,7 @@ from django.contrib.auth import get_user
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import QuerySet, Q, Avg
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views import generic
 
@@ -139,7 +139,10 @@ class MovieDetailView(generic.DetailView):
             context["avg_rating"] = round(avg_rating["rating__avg"], 1)
         if self.request.user.is_authenticated:
             user = get_user(self.request)
-            rating = Rating.objects.filter(user=user, movie=self.object).first()
+            rating = Rating.objects.filter(
+                user=user,
+                movie=self.object
+            ).first()
             rate = rating.rating if rating else None
             context["rating"] = rate
         return context
