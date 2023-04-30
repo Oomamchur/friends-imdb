@@ -6,7 +6,7 @@ from django.db.migrations import RunPython
 
 def func(apps, schema_editor) -> None:
     from django.core.management import call_command
-    call_command('loaddata', 'fixture_data.json')
+    call_command("loaddata", "fixture_data.json")
 
 
 def reverse_func(apps, schema_editor) -> None:
@@ -16,6 +16,7 @@ def reverse_func(apps, schema_editor) -> None:
 class Migration(migrations.Migration):
     dependencies = [
         ("catalog", "0008_alter_rating_rating"),
+        ("sessions", "0001_initial"),
     ]
 
     operations = [RunPython(func, reverse_func)]
