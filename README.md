@@ -6,7 +6,9 @@ give your own evaluations for watched movies.
 
 ## Try it!
 
-Here must be link
+Friends' IMDB Project deployed on Render. Link:
+
+https://friends-imdb.onrender.com/
 
 ## Installation
 
